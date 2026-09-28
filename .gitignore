@@ -1,0 +1,11 @@
+# Local datasets, notebooks, and unused models
+bears/
+images/
+beer_identifier.ipynb
+export.pkl
+
+# Python caches and local config
+__pycache__/
+.python-version
+.idea/
+.vscode/
