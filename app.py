@@ -1,6 +1,21 @@
+import pathlib
+import platform
 import streamlit as st
 from fastai.vision.all import load_learner
 from PIL import Image
+
+# ---------------------------------------------------------
+# Fix WindowsPath issue when loading model on Linux servers
+# ---------------------------------------------------------
+plt = platform.system()
+if plt != 'Windows':
+    pathlib.WindowsPath = pathlib.PosixPath
+
+# ---------------------------------------------------------
+# If you used a custom label function or custom transform during
+# training (e.g. `parent_label` or a custom `is_cat` function),
+# define it here BEFORE calling load_learner().
+# ---------------------------------------------------------
 
 st.title("🐻 Bear Classifier")
 st.write("Upload an image of a Grizzly, Black, or Teddy bear to classify it.")
@@ -19,7 +34,7 @@ uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file)
-    st.image(image, caption="Uploaded Image", use_column_width=True)
+    st.image(image, caption="Uploaded Image", use_container_width=True)
     st.write("Classifying...")
 
     pred, pred_idx, probs = model.predict(image)
